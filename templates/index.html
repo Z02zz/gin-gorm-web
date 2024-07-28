@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .title }}</title>
+</head>
+<body>
+    <h1>Welcome to My Blog</h1>
+    <a href="/posts/new">Create a new post</a>
+    <ul id="posts">
+        <!-- Posts will be loaded here -->
+    </ul>
+    <script>
+        fetch('/posts')
+            .then(response => response.json())
+            .then(posts => {
+                const postList = document.getElementById('posts');
+                posts.forEach(post => {
+                    const li = document.createElement('li');
+                    li.textContent = post.Title;
+                    postList.appendChild(li);
+                });
+            });
+    </script>
+</body>
+</html>
