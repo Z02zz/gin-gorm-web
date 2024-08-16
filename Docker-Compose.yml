@@ -1,0 +1,38 @@
+version: '2.28.1'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - ./config/config.yaml:/app/config.yaml # 挂载 YAML 配置文件
+    networks:
+      - app-network
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASS=root
+      - DB_NAME=Z02zz
+
+  db:
+    image: mysql:8.0.38
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: Z02zz
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
